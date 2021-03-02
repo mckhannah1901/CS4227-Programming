@@ -4,7 +4,7 @@ from flask_restless import APIManager
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///people.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///people.db'  # update this with a different URI???
 db = SQLAlchemy(app)
 
 
