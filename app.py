@@ -36,11 +36,14 @@ def register():
         password = request.form['password']
 
         registration = Person(first_name=first_name, last_name=last_name,
-                            email=email, username=username, password=password)
-        db.session.add(registration)
-        db.session.commit()
+                              email=email, username=username, password=password)
+        if first_name == '' or last_name == '' or email == '' or username == '' or password == '':
+            render_template("register.html")
+        else:
+            db.session.add(registration)
+            db.session.commit()
+            return redirect(url_for("login"))
 
-        return redirect(url_for("login"))
     return render_template("register.html")
 
 
