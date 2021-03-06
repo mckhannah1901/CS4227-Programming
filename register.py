@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request
 import re
 
+from sqlalchemy import create_engine
+engine = create_engine('sqlite:///people.db')
+connection = engine.raw_connection()
+cursor = connection.cursor()
+
 
 def register():
     message = ''
@@ -13,7 +18,6 @@ def register():
         username = request.form['username']
         password = request.form['password']
 
-        cursor = db.connection.cursor(SQLAlchemydb.cursors.DictCursor)
         cursor.execute('SELECT * FROM person WHERE email = % s OR username = % s', (email, username, ))
         account = cursor.fetchone()
         if account:

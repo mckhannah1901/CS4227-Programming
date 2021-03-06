@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request, session
+from sqlalchemy import create_engine
+engine = create_engine('sqlite:///people.db')
+connection = engine.raw_connection()
+cursor = connection.cursor()
 
 
 def login():
@@ -8,7 +12,6 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        cursor = db.connection.cursor(SQLAlchemydb.cursors.DictCursor)
         cursor.execute('SELECT * FROM person WHERE email = % s AND password = % s', (email, password, ))
         account = cursor.fetchone()
 
