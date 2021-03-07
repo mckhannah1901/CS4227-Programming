@@ -51,9 +51,13 @@ def addpost():
             db.session.add(post)
             db.session.commit()
             print("Registration completed successfully!")
-            return redirect(url_for("post-viewer"))
+            return redirect(url_for("viewpost"))
 
     return render_template("addpost.html")
+
+@app.route("/viewposts", methods=["GET", "POST"])
+def viewpost():
+    return render_template("viewposts.html")
 
 
 if __name__ == '__main__':
