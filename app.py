@@ -30,7 +30,7 @@ api_manager.create_api(Blogpost, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 
 @app.route("/addpost", methods=["GET", "POST"])
-def register():
+def addpost():
     if request.method == "POST":
         title = request.form['title']
         username = request.form['username']
