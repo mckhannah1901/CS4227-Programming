@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_restless import APIManager
 
@@ -37,11 +37,23 @@ def register():
 
         registration = Person(first_name=first_name, last_name=last_name,
                               email=email, username=username, password=password)
+
+        unique_email = db.session.query(Person.id).filter_by(email=email).first()
+        unique_username = db.session.query(Person.id).filter_by(username=username).first()
+
         if first_name == '' or last_name == '' or email == '' or username == '' or password == '':
+            print("All fields of the form must be filled in!")
+            render_template("register.html")
+        elif unique_email:
+            print("This email already exists in the database. Please choose another!")
+            render_template("register.html")
+        elif unique_username:
+            print("This username already exists in the database. Please choose another!")
             render_template("register.html")
         else:
             db.session.add(registration)
             db.session.commit()
+            print("Registration completed successfully!")
             return redirect(url_for("login"))
 
     return render_template("register.html")
@@ -56,6 +68,9 @@ def login():
         user_login = Person.query.filter_by(email=email, password=password).first()
         if user_login is not None:
             return redirect(url_for("hello_world"))
+        else:
+            print("Ensure a valid email/password is input!")
+            render_template("login.html")
     return render_template("login.html")
 
 
