@@ -29,17 +29,29 @@ api_manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
 api_manager.create_api(Blogpost, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 
-@app.route('/addpost', methods=['POST'])
-def addpost():
+@app.route("/addpost", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        title = request.form['title']
+        username = request.form['username']
+        content = request.form['content']
 
-    title = request.form['title']
-    author = request.form['author']
-    content = request.form['content']
+        post = Person(title=title, username=username,
+                              content=content, datetime = datetime.now())
 
-    post = Blogpost(title=title, author=author, content=content, date_posted=datetime.now())
+        unique_post = db.session.query(Person.id).filter_by(title=title).first()
 
-    db.session.add(post)
-    db.session.commit()
+        if title == '' or username == '' or content == '':
+            print("All fields of the form must be filled in!")
+            render_template("addpost.html")
+        elif unique_post:
+            print("This email already exists in the database. Please choose another!")
+            render_template("addpost.html")
+        else:
+            db.session.add(post)
+            db.session.commit()
+            print("Registration completed successfully!")
+            return redirect(url_for("post-viewer"))
 
     return render_template("addpost.html")
 
