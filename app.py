@@ -6,7 +6,7 @@ from flask_restless import APIManager
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'  # update this with a different URI???
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_blog_post.db'  # update this with a different URI???
 db = SQLAlchemy(app)
 
 
@@ -21,7 +21,7 @@ class Blogpost(db.Model):
     title = db.Column(db.Text)
     username = db.Column(db.Text)
     date = db.Column(db.DateTime)
-    content = db.column(db.Text)
+    content = db.Column(db.Text)
 
 
 api_manager = APIManager(app, flask_sqlalchemy_db=db)
@@ -37,7 +37,7 @@ def addpost():
         content = request.form['content']
 
         post = Blogpost(title=title, username=username,
-                              content=content, date = datetime.now())
+                        content=content, date=datetime.now())
 
         unique_post = db.session.query(Blogpost.id).filter_by(title=title).first()
 
@@ -54,6 +54,7 @@ def addpost():
             return redirect(url_for("viewpost"))
 
     return render_template("addpost.html")
+
 
 @app.route("/viewposts", methods=["GET", "POST"])
 def viewpost():
