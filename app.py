@@ -20,7 +20,7 @@ class Blogpost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
     username = db.Column(db.Text)
-    date_posted = db.Column(db.DateTime)
+    date = db.Column(db.DateTime)
     content = db.column(db.Text)
 
 
@@ -36,28 +36,30 @@ def addpost():
         username = request.form['username']
         content = request.form['content']
 
-        post = Person(title=title, username=username,
-                              content=content, datetime = datetime.now())
+        post = Blogpost(title=title, username=username,
+                              content=content, date = datetime.now())
 
-        unique_post = db.session.query(Person.id).filter_by(title=title).first()
+        unique_post = db.session.query(Blogpost.id).filter_by(title=title).first()
 
         if title == '' or username == '' or content == '':
             print("All fields of the form must be filled in!")
             render_template("addpost.html")
         elif unique_post:
-            print("This email already exists in the database. Please choose another!")
+            print("This title already exists, choose another!")
             render_template("addpost.html")
         else:
             db.session.add(post)
             db.session.commit()
-            print("Registration completed successfully!")
+            print("Post added!")
             return redirect(url_for("viewpost"))
 
     return render_template("addpost.html")
 
 @app.route("/viewposts", methods=["GET", "POST"])
 def viewpost():
-    return render_template("viewposts.html")
+    posts = Blogpost.query.order_by(Blogpost.date.desc()).all()
+
+    return render_template('viewposts.html', posts=posts)
 
 
 if __name__ == '__main__':
