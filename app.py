@@ -132,13 +132,6 @@ def delete(id, username):
     return view_user_posts(username)
 
 
-# @app.route("/edit/<id>/<username>", methods=["GET"])
-# def edit(id, username):
-#     Blogpost.query.filter_by(id=id).update()
-#     db.session.commit()
-#     return view_user_posts(username)
-
-
 @app.route("/edit/<id>/<username>", methods=["GET", "POST"])
 def edit(id, username):
     if request.method == "POST":
@@ -160,7 +153,7 @@ def edit(id, username):
         db.session.flush()
         db.session.commit()
 
-        return render_template("edit-post.html")
+        return redirect(url_for("view_user_posts", username=username))
     elif request.method == "GET":
         return render_template("edit-post.html")
 
