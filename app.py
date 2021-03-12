@@ -1,9 +1,9 @@
-
 from datetime import datetime
 
 from flask import Flask, redirect, render_template, request, url_for
 from flask_restless import APIManager
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm.attributes import flag_modified
 
 app = Flask(__name__)
 
@@ -27,7 +27,7 @@ class Blogpost(db.Model):
     date = db.Column(db.DateTime)
     content = db.Column(db.Text)
 
-    
+
 api_manager = APIManager(app, flask_sqlalchemy_db=db)
 api_manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
 api_manager.create_api(Blogpost, methods=['GET', 'POST', 'DELETE', 'PUT'])
@@ -142,10 +142,27 @@ def delete(id, username):
 @app.route("/edit/<id>/<username>", methods=["GET", "POST"])
 def edit(id, username):
     if request.method == "POST":
-        print(id)
-        return render_template("addpost.html")
+        original_blog_post_data = Blogpost.query.filter_by(id=id)[0]
+
+        new_blog_post_data = get_blog_post_data(id)
+
+        original_blog_post_data.title = new_blog_post_data.title
+        original_blog_post_data.username = new_blog_post_data.username
+        original_blog_post_data.date = new_blog_post_data.date
+        original_blog_post_data.content = new_blog_post_data.content
+
+        flag_modified(original_blog_post_data, "title")
+        flag_modified(original_blog_post_data, "date")
+        flag_modified(original_blog_post_data, "username")
+        flag_modified(original_blog_post_data, "content")
+
+        db.session.merge(original_blog_post_data)
+        db.session.flush()
+        db.session.commit()
+
+        return render_template("edit-post.html")
     elif request.method == "GET":
-        return render_template("addpost.html")
+        return render_template("edit-post.html")
 
 
 def get_blog_post_data(id):
