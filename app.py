@@ -132,11 +132,31 @@ def delete(id, username):
     return view_user_posts(username)
 
 
-@app.route("/edit/<id>/<username>", methods=["GET"])
+# @app.route("/edit/<id>/<username>", methods=["GET"])
+# def edit(id, username):
+#     Blogpost.query.filter_by(id=id).update()
+#     db.session.commit()
+#     return view_user_posts(username)
+
+
+@app.route("/edit/<id>/<username>", methods=["GET", "POST"])
 def edit(id, username):
-    Blogpost.query.filter_by(id=id).update()
-    db.session.commit()
-    return view_user_posts(username)
+    if request.method == "POST":
+        print(id)
+        return render_template("addpost.html")
+    elif request.method == "GET":
+        return render_template("addpost.html")
+
+
+def get_blog_post_data(id):
+    title = request.form['title']
+    username = request.form['username']
+    content = request.form['content']
+
+    post = Blogpost(id=id, title=title, username=username,
+                    content=content, date=datetime.now())
+
+    return post
 
 
 if __name__ == '__main__':
