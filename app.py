@@ -1,8 +1,9 @@
 
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, url_for
-from flask_sqlalchemy import SQLAlchemy
+
+from flask import Flask, redirect, render_template, request, url_for
 from flask_restless import APIManager
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -117,23 +118,25 @@ def login():
 @app.route("/view-user-posts/<username>")
 def view_user_posts(username):
     username_posts = Blogpost.query.filter_by(username=username)
-    return render_template("viewposts.html", posts=username_posts)
+    return render_template("view-user-posts.html", posts=username_posts)
 
 
 def view_id_posts(id):
     return Blogpost.query.filter_by(id=id)
 
 
-@app.route("/delete/<id>", methods=["POST"])
-def delete(id):
-    id_posts = view_id_posts(id=id)
-    return render_template("viewposts.html", posts=id_posts)
+@app.route("/delete/<id>/<username>", methods=["GET"])
+def delete(id, username):
+    Blogpost.query.filter_by(id=id).delete()
+    db.session.commit()
+    return view_user_posts(username)
 
 
-@app.route("/edit/<id>", methods=["POST"])
-def edit(id):
-    id_posts = view_id_posts(id=id)
-    return render_template("viewposts.html", posts=id_posts)
+@app.route("/edit/<id>/<username>", methods=["GET"])
+def edit(id, username):
+    Blogpost.query.filter_by(id=id).update()
+    db.session.commit()
+    return view_user_posts(username)
 
 
 if __name__ == '__main__':
