@@ -19,7 +19,6 @@ class Person(db.Model):
     password = db.Column(db.Text)
 
 
-
 class Blogpost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
@@ -113,6 +112,28 @@ def login():
             print("Ensure a valid email/password is input!")
             render_template("login.html")
     return render_template("login.html")
+
+
+@app.route("/view-user-posts/<username>")
+def view_user_posts(username):
+    username_posts = Blogpost.query.filter_by(username=username)
+    return render_template("viewposts.html", posts=username_posts)
+
+
+def view_id_posts(id):
+    return Blogpost.query.filter_by(id=id)
+
+
+@app.route("/delete/<id>", methods=["POST"])
+def delete(id):
+    id_posts = view_id_posts(id=id)
+    return render_template("viewposts.html", posts=id_posts)
+
+
+@app.route("/edit/<id>", methods=["POST"])
+def edit(id):
+    id_posts = view_id_posts(id=id)
+    return render_template("viewposts.html", posts=id_posts)
 
 
 if __name__ == '__main__':
