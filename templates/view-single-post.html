@@ -26,6 +26,16 @@
             <div>
                 <a href="/add-comment/{{ post.id }}">Add post</a>
             </div>
+            <div class="row">
+                <h3>Comments</h3>
+            </div>
+            <div class="row">
+                {% for comment in comments %}
+                {{ comment.content }}
+                {{ comment.username }}
+                </div>
+              {% endfor %}
+            </div>
         </div>
     </article>
 

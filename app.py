@@ -73,8 +73,8 @@ def addpost():
 def view_single_post(post_id):
     if request.method == "GET":
         post = Blogpost.query.filter_by(id=post_id).first()
-        # find comments for an id here, like what's in view post, with a list of comments.
-        return render_template('view-single-post.html', post=post)
+        comments = Comment.query.filter_by(id=post_id)
+        return render_template('view-single-post.html', post=post, comments=comments)
 
 
 @app.route("/add-comment/<post_id>", methods=["GET", "POST"])
