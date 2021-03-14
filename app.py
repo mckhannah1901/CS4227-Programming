@@ -20,7 +20,6 @@ class Person(db.Model):
     password = db.Column(db.Text)
 
 
-
 class Blogpost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
@@ -28,10 +27,19 @@ class Blogpost(db.Model):
     date = db.Column(db.DateTime)
     content = db.Column(db.Text)
 
-    
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer)
+    username = db.Column(db.Text)
+    date = db.Column(db.Text)
+    content = db.Column(db.Text)
+
+
 api_manager = APIManager(app, flask_sqlalchemy_db=db)
 api_manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
 api_manager.create_api(Blogpost, methods=['GET', 'POST', 'DELETE', 'PUT'])
+api_manager.create_api(Comment, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 
 @app.route("/addpost", methods=["GET", "POST"])
@@ -61,19 +69,36 @@ def addpost():
     return render_template("addpost.html")
 
 
-@app.route("/viewposts/<string:post_id>", methods=["GET", "POST"])
+@app.route("/view-post/<string:post_id>", methods=["GET", "POST"])
 def view_single_post(post_id):
-    post = Blogpost.query.filter_by(id=post_id).first()
-
-    # find comments for an id here, like what's in viewpost, with a list of comments.
-    return render_template('view-single-post.html', post=post)
+    if request.method == "GET":
+        post = Blogpost.query.filter_by(id=post_id).first()
+        # find comments for an id here, like what's in view post, with a list of comments.
+        return render_template('view-single-post.html', post=post)
 
 
 @app.route("/add-comment/<post_id>", methods=["GET", "POST"])
 def add_comment(post_id):
-    print("fgh")
-    post = Blogpost.query.filter_by(id=post_id).first()
-    return render_template("add-comment.html")
+    if request.method == "POST":
+        username = request.form['username']
+        content = request.form['content']
+        comment = Comment(post_id=post_id, username=username, content=content)
+        unique_comment = db.session.query(Comment.id).filter_by(content=content).first()
+
+        if username == '' or content == '' or post_id == '':
+            print("All fields of the form must be filled in!")
+            render_template("add-comment.html")
+        elif unique_comment:
+            print("This title already exists, choose another!")
+            render_template("add-comment.html")
+        else:
+            db.session.add(comment)
+            db.session.commit()
+            print("Comment added.")
+            return redirect(url_for("view_single_post", post_id=post_id))
+
+    else:
+        return render_template("add-comment.html")
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
