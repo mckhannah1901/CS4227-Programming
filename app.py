@@ -60,6 +60,13 @@ def addpost():
     return render_template("addpost.html")
 
 
+@app.route("/viewposts/<string:post_id>", methods=["GET", "POST"])
+def view_single_post(post_id):
+    post = Blogpost.query.filter_by(id=post_id).first()
+
+    return render_template('view-single-post.html', post=post)
+
+
 @app.route("/viewposts", methods=["GET", "POST"])
 def viewpost():
     posts = Blogpost.query.order_by(Blogpost.date.desc()).all()
