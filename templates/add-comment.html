@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <title>View posts | Flask</title>
+    <title>Post Creation | Flask</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -13,21 +13,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
-
-    <!-- Main Content -->
-    <article>
-        <div class="container">
-            <div class="row">
-                <h2>{{ post.title }}</h2>
-            </div>
-            <div class="row">
-                <p>{{ post.content }}</p>
-            </div>
-            <div>
-                <a href="/add-comment/{{ post.id }}">Add post</a>
+    <div style="text-align: center;"><div class="container">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-sm-6">
+                <form method="POST">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="username" name="username" id="username" required data-validation-required-message="Please enter your phone number.">
+                    </div>
+                    <div class="form-group">
+                        <label>Comment Content</label>
+                        <textarea rows="5" class="form-control" placeholder="Comment content" name="content" id="content" required data-validation-required-message="Please enter a message."></textarea>
+                    </div>
+                    <button type="submit" class="btn form-control btn-default">Submit</button>
+                </form>
             </div>
         </div>
-    </article>
+    </div></div>
+
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

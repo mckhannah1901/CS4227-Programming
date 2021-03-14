@@ -1,8 +1,9 @@
 
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, url_for
-from flask_sqlalchemy import SQLAlchemy
+
+from flask import Flask, redirect, render_template, request, url_for
 from flask_restless import APIManager
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -64,7 +65,15 @@ def addpost():
 def view_single_post(post_id):
     post = Blogpost.query.filter_by(id=post_id).first()
 
+    # find comments for an id here, like what's in viewpost, with a list of comments.
     return render_template('view-single-post.html', post=post)
+
+
+@app.route("/add-comment/<post_id>", methods=["GET", "POST"])
+def add_comment(post_id):
+    print("fgh")
+    post = Blogpost.query.filter_by(id=post_id).first()
+    return render_template("add-comment.html")
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
