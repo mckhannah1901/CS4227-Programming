@@ -1,13 +1,14 @@
 from datetime import datetime
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
 from flask_restless import APIManager
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm.attributes import flag_modified
 
 app = Flask(__name__)
+app.secret_key = "cs4227"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_blog_post.db'  # update this with a different URI???
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_blog_post.db'
 db = SQLAlchemy(app)
 
 
@@ -149,11 +150,20 @@ def login():
 
         user_login = Person.query.filter_by(email=email, password=password).first()
         if user_login is not None:
-            return redirect(url_for("hello_world"))
+            session['username'] = user_login.username
+            session['id'] = user_login.id
+            print(session['username'], session['id'])
+            return redirect(url_for("viewpost"))
         else:
             print("Ensure a valid email/password is input!")
             render_template("login.html")
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    session.pop('id', None)
+    return redirect(url_for("viewpost"))
 
 
 @app.route("/view-user-posts/<username>")
