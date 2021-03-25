@@ -1,11 +1,8 @@
+from flask import redirect, url_for
 from flask import request, render_template
 
-from flask import session, redirect, url_for
-
 from app import app
-from app import viewposts, user_registration, log_out
-
-from flask import redirect, url_for
+from app import viewposts, user_registration, log_out, log_in
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -45,4 +42,11 @@ def logout():
     return redirect(url_for("viewpost"))
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        log_in.log_in(request.form['email'], request.form['password'])
+        return redirect(url_for("viewpost"))
+    elif request.method == "GET":
+        return render_template("login.html")
 

@@ -2,8 +2,6 @@ from app import Person, db
 
 
 def register_new_user(first_name, last_name, email, username, password):
-    print(first_name, last_name, email, username, password)
-
     registration = Person(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
 
     email_exists = db.session.query(Person.id).filter_by(email=email).first()
