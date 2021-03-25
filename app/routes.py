@@ -2,7 +2,7 @@ from flask import redirect, url_for
 from flask import request, render_template
 
 from app import app
-from app import viewposts, user_registration, log_out, log_in, add_comment
+from app import viewposts, user_registration, log_out, log_in, add_comment, add_post
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -63,3 +63,15 @@ def addcomment(post_id):
             return render_template("add-comment.html")
     elif request.method == "GET":
         return render_template("add-comment.html")
+
+
+@app.route("/addpost", methods=["GET", "POST"])
+def addpost():
+    if request.method == "POST":
+        try:
+            add_post.add_post(request.form['title'], request.form['content'])
+            return redirect(url_for("viewpost"))
+        except Exception as ex:
+            return render_template("addpost.html")
+    elif request.method == "GET":
+        return render_template("addpost.html")
