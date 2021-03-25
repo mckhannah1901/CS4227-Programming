@@ -8,4 +8,4 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_blog_post.db'
 db = SQLAlchemy(app)
 
 from app.models import Person, Blogpost, Comment
-from app import addcomment, addpost, deletepost, editpost, login, logout, register, viewposts, routes
+from app import addcomment, addpost, deletepost, editpost, login, logout, user_registration, viewposts, routes

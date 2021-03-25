@@ -1,6 +1,9 @@
-from app import viewposts, app
+from flask import request, render_template
 
-from flask import render_template, request
+from app import app
+from app import viewposts, user_registration
+
+from flask import redirect, url_for
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -19,3 +22,16 @@ def view_single_post(post_id):
 @app.route("/view-user-posts/<username>")
 def view_user_posts(username):
     return render_template("view-user-posts.html", posts=viewposts.view_user_posts(username))
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        try:
+            user_registration.register_new_user(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['username'], request.form['password'])
+            return redirect(url_for("login"))
+        except Exception as ex:
+            print(ex)
+            return render_template("register.html")
+    elif request.method == "GET":
+        return render_template("register.html")
