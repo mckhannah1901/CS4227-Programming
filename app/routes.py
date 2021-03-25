@@ -2,7 +2,7 @@ from flask import redirect, url_for
 from flask import request, render_template
 
 from app import app
-from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post
+from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -81,3 +81,12 @@ def addpost():
 def deletepost(id, username):
     delete_post.delete_post(id)
     return view_user_posts(username)
+
+
+@app.route("/edit/<id>/<username>", methods=["GET", "POST"])
+def editpost(id, username):
+    if request.method == "POST":
+        edit_post.edit_post(id)
+        return redirect(url_for("view_user_posts", username=username))
+    elif request.method == "GET":
+        return render_template("edit-post.html")
