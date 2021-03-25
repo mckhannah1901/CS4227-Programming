@@ -31,10 +31,11 @@
             </div>
             <div class="row">
                 {% for comment in comments %}
-                {{ comment.content }}
-                {{ comment.username }}
-                </div>
-              {% endfor %}
+                    <div class="row">
+                        {{ comment.content }}
+                        {{ comment.username }}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </article>

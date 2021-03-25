@@ -2,7 +2,7 @@ from flask import redirect, url_for
 from flask import request, render_template
 
 from app import app
-from app import viewposts, user_registration, log_out, log_in
+from app import viewposts, user_registration, log_out, log_in, add_comment
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -30,7 +30,6 @@ def register():
             user_registration.register_new_user(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['username'], request.form['password'])
             return redirect(url_for("login"))
         except Exception as ex:
-            print(ex)
             return render_template("register.html")
     elif request.method == "GET":
         return render_template("register.html")
@@ -45,8 +44,22 @@ def logout():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        log_in.log_in(request.form['email'], request.form['password'])
-        return redirect(url_for("viewpost"))
+        try:
+            log_in.log_in(request.form['email'], request.form['password'])
+            return redirect(url_for("viewpost"))
+        except Exception as ex:
+            return render_template("login.html")
     elif request.method == "GET":
         return render_template("login.html")
 
+
+@app.route("/add-comment/<post_id>", methods=["GET", "POST"])
+def addcomment(post_id):
+    if request.method == "POST":
+        try:
+            add_comment.add_comment(post_id, request.form['content'])
+            return redirect(url_for("view_single_post", post_id=post_id))
+        except Exception as ex:
+            return render_template("add-comment.html")
+    elif request.method == "GET":
+        return render_template("add-comment.html")

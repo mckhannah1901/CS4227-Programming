@@ -7,7 +7,8 @@ def get_all_posts():
 
 def view_single_post(post_id):
     post = view_id_posts(post_id).first()
-    comments = Comment.query.filter_by(id=post_id)
+    comments = Comment.query.filter_by(post_id=post_id).all()
+
     return post, comments
 
 
