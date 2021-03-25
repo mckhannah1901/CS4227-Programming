@@ -1,7 +1,9 @@
 from flask import request, render_template
 
+from flask import session, redirect, url_for
+
 from app import app
-from app import viewposts, user_registration
+from app import viewposts, user_registration, log_out
 
 from flask import redirect, url_for
 
@@ -35,3 +37,12 @@ def register():
             return render_template("register.html")
     elif request.method == "GET":
         return render_template("register.html")
+
+
+@app.route("/logout")
+def logout():
+    log_out.log_out()
+    return redirect(url_for("viewpost"))
+
+
+
