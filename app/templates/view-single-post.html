@@ -23,6 +23,12 @@
             <div class="row">
                 <p>{{ post.content }}</p>
             </div>
+            <div class="row">
+                <p>{{ post.username }}</p>
+            </div>
+            <div>
+                <a href="/user_subscribe/{{ post.username }}">Subscribe to User</a>
+            </div>
             <div>
                 <a href="/add-comment/{{ post.id }}">Add Comment</a>
             </div>

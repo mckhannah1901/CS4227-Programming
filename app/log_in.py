@@ -1,4 +1,5 @@
 from flask import session
+from flask_login import login_user
 
 from app import Person
 
@@ -8,6 +9,7 @@ def log_in(email, password):
     if user_login is not None:
         session['username'] = user_login.username
         session['id'] = user_login.id
+        login_user(user_login)
     else:
         print("Ensure a valid email/password is input!")
         raise Exception

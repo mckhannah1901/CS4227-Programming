@@ -1,8 +1,23 @@
 from flask import redirect, url_for
 from flask import request, render_template
+from flask_login import current_user, login_required, login_user
+from datetime import datetime
 
-from app import app
-from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post
+from app import app, db
+from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post,\
+                user_subscribing
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
+
+@app.route('/user_subscribe/<username>', methods=['GET', 'POST'])
+def subscribe_to_user(username):
+    return redirect(url_for("viewpost", username=user_subscribing.follow_user(username)))
 
 
 @app.route("/viewposts", methods=["GET", "POST"])
@@ -46,7 +61,10 @@ def login():
     if request.method == "POST":
         try:
             log_in.log_in(request.form['email'], request.form['password'])
-            return redirect(url_for("viewpost"))
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('viewpost')
+            return redirect(next_page)
         except Exception as ex:
             return render_template("login.html")
     elif request.method == "GET":
