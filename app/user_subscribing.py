@@ -3,7 +3,6 @@ from flask import redirect, url_for, session
 from flask_login import current_user, login_required
 
 
-@app.route('/user_subscribe/<username>', methods=['GET', 'POST'])
 @login_required
 def follow_user(username):
     person = Person.query.filter_by(username=username).first()
