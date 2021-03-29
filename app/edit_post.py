@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import request
 from sqlalchemy.orm.attributes import flag_modified
 
-from app import Blogpost, db
+from app import Blogpost, db, notifications
 
 
 def edit_post(post_id):
@@ -24,6 +24,8 @@ def edit_post(post_id):
     db.session.merge(original_blog_post_data)
     db.session.flush()
     db.session.commit()
+
+    notifications.notify_users(new_blog_post_data.user_id, "Post has been updated", "Post had been edited.")
 
 
 def get_blog_post_data(id):
