@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import request
 from sqlalchemy.orm.attributes import flag_modified
 
-from app import Blogpost, db, models
+from app import Blogpost, db
 
 
 def edit_post(post_id):
@@ -12,8 +12,6 @@ def edit_post(post_id):
     new_blog_post_data = get_blog_post_data(post_id)
 
     editor = models.PostEditUtility(original_blog_post_data)
-
-    edit_caretaker = models.PostEditCaretaker()
 
     try:
         existing_blog_post_data.title = new_blog_post_data.title
