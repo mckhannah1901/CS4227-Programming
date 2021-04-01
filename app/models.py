@@ -9,6 +9,69 @@ users_to_follow = db.Table(
 )
 
 
+class PersonManager:
+    _builder = None
+
+    def set_builder(self, builder):
+        self._builder = builder
+
+    def get_person(self):
+        username = self._builder.get_username()
+        email = self._builder.get_email()
+        password = self._builder.get_password()
+        first_name = self._builder.get_first_name()
+        last_name = self._builder.get_last_name()
+
+        print(username, email, password, first_name, last_name)
+
+        registration = Person(first_name=first_name, last_name=last_name, email=email, username=username,
+                              password=password)
+
+        return registration
+
+
+class Builder:
+    def get_username(self): pass
+
+    def get_email(self): pass
+
+    def get_password(self): pass
+
+    def get_first_name(self): pass
+
+    def get_last_name(self): pass
+
+
+class PersonBuilder(Builder):
+    username = None
+    email = None
+    password = None
+    first_name = None
+    last_name = None
+
+    def set_variables(self, username, email, password, first_name, last_name):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
+
+    def get_username(self):
+        return self.username
+
+    def get_password(self):
+        return self.password
+
+    def get_email(self):
+        return self.email
+
+    def get_first_name(self):
+        return self.first_name
+
+    def get_last_name(self):
+        return self.last_name
+
+
 class Person(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.Text)
