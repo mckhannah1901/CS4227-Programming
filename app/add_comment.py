@@ -1,20 +1,9 @@
-from flask import session
-
-from app import Comment, db
+from app import abstract_factory
 
 
-def add_comment(post_id, content):
-    username = session['username']
-    comment = Comment(post_id=post_id, username=username, content=content)
-    comment_exists = db.session.query(Comment.id).filter_by(content=content).first()
+def add_comment(post_id, content, comment_type):
+    if comment_type == "text":
+        abstract_factory.add_text_comment(post_id, content)
+    elif comment_type == "emoji":
+        abstract_factory.add_emoji_comment(post_id, content)
 
-    if username == '' or content == '' or post_id == '':
-        print("All fields of the form must be filled in!")
-        raise Exception
-    elif comment_exists:
-        print("This comment already exists, choose another!")
-        raise Exception
-    else:
-        db.session.add(comment)
-        db.session.commit()
-        print("Comment added.")
