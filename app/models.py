@@ -16,24 +16,18 @@ class PersonManager:
         self._builder = builder
 
     def get_person(self):
-        person = Person()
-
         username = self._builder.get_username()
-        person.set_username(username)
-
         email = self._builder.get_email()
-        person.set_email(email)
-
         password = self._builder.get_password()
-        person.set_password(password)
-
         first_name = self._builder.get_first_name()
-        person.set_first_name(first_name)
-
         last_name = self._builder.get_last_name()
-        person.set_last_name(last_name)
 
-        return person
+        print(username, email, password, first_name, last_name)
+
+        registration = Person(first_name=first_name, last_name=last_name, email=email, username=username,
+                              password=password)
+
+        return registration
 
 
 class Builder:
@@ -69,7 +63,7 @@ class PersonBuilder(Builder):
         return self.password
 
     def get_email(self):
-        return self.password
+        return self.email
 
     def get_first_name(self):
         return self.first_name
@@ -90,28 +84,6 @@ class Person(UserMixin, db.Model):
         primaryjoin=(users_to_follow.c.user_following_id == id),
         secondaryjoin=(users_to_follow.c.user_being_followed_id == id),
         backref=db.backref('users_to_follow', lazy='dynamic'), lazy='dynamic')
-
-    def __init__(self):
-        self._username = None
-        self._email = None
-        self._password = None
-        self._first_name = None
-        self._last_name = None
-
-    def set_username(self, username):
-        self._username = username
-
-    def set_email(self, email):
-        self._email = email
-
-    def set_password(self, password):
-        self._password = password
-
-    def set_first_name(self, first_name):
-        self._first_name = first_name
-
-    def set_last_name(self, last_name):
-        self._last_name = last_name
 
     def __repr__(self):
         return '<Person {}>'.format(self.username)
