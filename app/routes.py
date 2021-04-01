@@ -1,11 +1,12 @@
-from flask import redirect, url_for
-from flask import request, render_template
-from flask_login import current_user, login_required, login_user
 from datetime import datetime
 
+from flask import redirect, url_for
+from flask import request, render_template
+from flask_login import current_user
+
 from app import app, db
-from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post,\
-                user_subscribing
+from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post, \
+    user_subscribing
 
 
 @app.before_request
@@ -42,7 +43,9 @@ def view_user_posts(username):
 def register():
     if request.method == "POST":
         try:
-            user_registration.register_new_user(request.form['first_name'], request.form['last_name'], request.form['email'], request.form['username'], request.form['password'])
+            user_registration.register_new_user(request.form['first_name'], request.form['last_name'],
+                                                request.form['email'], request.form['username'],
+                                                request.form['password'])
             return redirect(url_for("login"))
         except Exception as ex:
             return render_template("register.html")
