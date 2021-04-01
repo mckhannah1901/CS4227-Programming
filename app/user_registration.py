@@ -23,7 +23,6 @@ def register_new_user(first_name, last_name, email, username, password):
         print("This username already exists in the database. Please choose another!")
         raise Exception
     else:
-        print(person)
         db.session.add(person)
         db.session.commit()
         print("Registration completed successfully!")
