@@ -17,6 +17,7 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template("home-page.html")
@@ -28,6 +29,7 @@ def view_user_profile(username):
         person = user_profile.profile_name(username)
         posts = user_profile.profile_posts(username)
         return render_template("user-profile-page.html", person=person, posts=posts)
+
 
 @app.route('/user_subscribe/<username>', methods=['GET', 'POST'])
 def subscribe_to_user(username):
@@ -93,11 +95,23 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/add-reaction/<post_id>", methods=["GET", "POST"])
+def addreaction(post_id):
+    if request.method == "POST":
+        try:
+            add_comment.add_comment(post_id, request.form['content'], "emoji")
+            return redirect(url_for("view_single_post", post_id=post_id))
+        except Exception as ex:
+            return render_template("add-reaction.html")
+    elif request.method == "GET":
+        return render_template("add-reaction.html")
+
+
 @app.route("/add-comment/<post_id>", methods=["GET", "POST"])
 def addcomment(post_id):
     if request.method == "POST":
         try:
-            add_comment.add_comment(post_id, request.form['content'])
+            add_comment.add_comment(post_id, request.form['content'], "text")
             return redirect(url_for("view_single_post", post_id=post_id))
         except Exception as ex:
             return render_template("add-comment.html")
