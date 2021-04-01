@@ -8,7 +8,6 @@ users_to_follow = db.Table(
     db.Column('user_being_followed_id', db.Integer, db.ForeignKey('person.id'))
 )
 
-
 class Mediator(object):
     def notify_user(self, username, email):
         subject = "New user has subscribed to you"
