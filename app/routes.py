@@ -6,7 +6,7 @@ from flask_login import current_user
 
 from app import app, db
 from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post, \
-    user_subscribing
+    user_subscribing, user_profile
 
 
 @app.before_request
@@ -15,6 +15,17 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template("home-page.html")
+
+
+@app.route('/profile/<username>', methods=['GET', 'POST'])
+def view_user_profile(username):
+    if request.method == "GET":
+        person = user_profile.profile_name(username)
+        posts = user_profile.profile_posts(username)
+        return render_template("user-profile-page.html", person=person, posts=posts)
 
 @app.route('/user_subscribe/<username>', methods=['GET', 'POST'])
 def subscribe_to_user(username):
