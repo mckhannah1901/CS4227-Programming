@@ -3,12 +3,10 @@ from datetime import datetime
 from flask import request
 from sqlalchemy.orm.attributes import flag_modified
 
-from app import Blogpost, db, models
+from app import Blogpost, db
 
 
 def edit_post(post_id):
-    edit_caretaker = models.PostEditCaretaker()
-
     original_blog_post_data = Blogpost.query.filter_by(id=post_id)[0]
     existing_blog_post_data = original_blog_post_data
     new_blog_post_data = get_blog_post_data(post_id)
@@ -28,17 +26,9 @@ def edit_post(post_id):
         flag_modified(existing_blog_post_data, "username")
         flag_modified(existing_blog_post_data, "content")
 
-        edit_caretaker.save(editor)
-
         db.session.merge(existing_blog_post_data)
         db.session.flush()
         db.session.commit()
-
-        # edit_caretaker.undo(editor)
-        # db.session.merge(original_blog_post_data)
-        # db.session.flush()
-        # db.session.commit()
-
     except Exception as ex:
         edit_caretaker.undo(editor)
         db.session.merge(original_blog_post_data)
