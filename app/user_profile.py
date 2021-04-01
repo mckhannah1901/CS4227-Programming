@@ -1,6 +1,6 @@
-from app import app, Person, Blogpost, db, routes
-from flask import redirect, url_for, session
-from flask_login import current_user, login_required
+from flask_login import login_required
+
+from app import Person, Blogpost
 
 
 @login_required
