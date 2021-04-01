@@ -4,6 +4,8 @@ from flask import redirect, url_for
 from flask import request, render_template
 from flask_login import current_user
 
+from werkzeug.urls import url_parse
+
 from app import app, db
 from app import viewposts, user_registration, log_out, log_in, add_comment, add_post, delete_post, edit_post, \
     user_subscribing, user_profile
@@ -36,6 +38,12 @@ def subscribe_to_user(username):
 def viewpost():
     if request.method == "GET":
         return render_template('viewposts.html', posts=viewposts.get_all_posts())
+
+
+@app.route("/viewposts/<tag>", methods=["GET", "POST"])
+def viewtaggedpost(tag):
+    if request.method == "GET":
+        return render_template('viewposts.html', posts=viewposts.get_tagged_posts(tag))
 
 
 @app.route("/view-post/<string:post_id>", methods=["GET", "POST"])
@@ -101,7 +109,7 @@ def addcomment(post_id):
 def addpost():
     if request.method == "POST":
         try:
-            add_post.add_post(request.form['title'], request.form['content'])
+            add_post.add_post(request.form['title'], request.form['content'], request.form['tag'])
             return redirect(url_for("viewpost"))
         except Exception as ex:
             return render_template("addpost.html")

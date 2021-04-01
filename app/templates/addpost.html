@@ -24,8 +24,28 @@
                     <div class="form-group">
                         <label>Blog Content</label>
                         <textarea rows="5" class="form-control" placeholder="Blog content" name="content" id="content" required data-validation-required-message="Please enter a message."></textarea>
+
+                        <label>Tag</label>
+{#                        <textarea rows="1" class="form-control" placeholder="Tag" name="tag" id="tag" required data-validation-required-message="Please enter a tag."></textarea>#}
+{#                        <label>Status</label>#}
+                        <div class="row">
+                            <select name="tag" id="tag">
+                                <option style="display:none;" selected>Select Tag</option>
+                                <option value="Tech">Tech</option>
+                                <option value="Food">Food</option>
+                                <option value="DIY">DIY</option>
+                                <option value="Home">Home</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Gaming">Gaming</option>
+                                <option value="Animals">Animals</option>
+                                <option value="Existential">Existential</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <form action="/addpost" method="post">
+                            <button type="submit" class="btn form-control btn-default">Submit</button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn form-control btn-default">Submit</button>
                 </form>
             </div>
         </div>

@@ -5,11 +5,11 @@ from flask import session
 from app import Blogpost, db
 
 
-def add_post(title, content):
+def add_post(title, content, tag):
     username = session['username']
     person_id = session['id']
 
-    post = Blogpost(title=title, username=username, content=content, date=datetime.now(), user_id=person_id)
+    post = Blogpost(title=title, username=username, content=content, date=datetime.now(), user_id=person_id, tag=tag)
 
     post_exists = db.session.query(Blogpost.id).filter_by(title=title).first()
 
