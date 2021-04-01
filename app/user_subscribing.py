@@ -19,5 +19,10 @@ def follow_user(username):
     current_user.follow_user(person)
     db.session.commit()
     print('You are now following {}.'.format(username))
-    notifications.notify_subscription_event(person.email, "bleh", "bleh")
+
+    subject = "New user has subscribed to you"
+    body = "User {username} has subscribed to you. They can see any activity you have.".format(username=person.username)
+
+    notifications.notify_subscription_event(email=person.email, subject=subject, body=body)
+
     return redirect(url_for('viewpost', username=username))

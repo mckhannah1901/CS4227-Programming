@@ -1,11 +1,9 @@
 from flask_mail import Message
 
-import app
+from app import mail
 
 
 def notify_subscription_event(email, subject, body):
-    msg = Message(subject=subject,
-                  sender=app.mail_settings.get("MAIL_USERNAME"),
-                  recipients=[email],
-                  body=body)
-    app.mail.send(msg)
+    msg = Message(subject, sender='cs4227.blog.website@gmail.com', recipients=[email])
+    msg.body = body
+    mail.send(msg)
