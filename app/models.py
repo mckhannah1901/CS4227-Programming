@@ -1,5 +1,5 @@
 from flask_restless import APIManager
-from app import db, app, login_manager
+from app import db, app, login_manager, notifications
 from flask_login import UserMixin
 
 users_to_follow = db.Table(
@@ -7,6 +7,14 @@ users_to_follow = db.Table(
     db.Column('user_following_id', db.Integer, db.ForeignKey('person.id')),
     db.Column('user_being_followed_id', db.Integer, db.ForeignKey('person.id'))
 )
+
+class Mediator(object):
+    def notify_user(self, username, email):
+        subject = "New user has subscribed to you"
+        body = "User {username} has subscribed to you. They can see any activity you have.".format(
+            username=username)
+
+        notifications.notify_subscription_event(email=email, subject=subject, body=body)
 
 
 class Memento:

@@ -1,7 +1,8 @@
 from flask import redirect, url_for
 from flask_login import current_user, login_required
 
-from app import Person, db, notifications
+from app import Person, db
+from app.models import Mediator
 
 
 @login_required
@@ -20,9 +21,7 @@ def follow_user(username):
     db.session.commit()
     print('You are now following {}.'.format(username))
 
-    subject = "New user has subscribed to you"
-    body = "User {username} has subscribed to you. They can see any activity you have.".format(username=person.username)
-
-    notifications.notify_subscription_event(email=person.email, subject=subject, body=body)
+    mediator = Mediator()
+    mediator.notify_user(username=person.username, email=person.email)
 
     return redirect(url_for('viewpost', username=username))
