@@ -50,6 +50,7 @@ class Blogpost(db.Model):
     date = db.Column(db.DateTime)
     content = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('person.id'))
+    tag = db.Column(db.Text)
 
 
 class Comment(db.Model):

@@ -12,6 +12,10 @@ def view_single_post(post_id):
     return post, comments
 
 
+def get_tagged_posts(tag):
+    return Blogpost.query.filter_by(tag=tag).all()
+
+
 def view_user_posts(username):
     return Blogpost.query.filter_by(username=username)
 
