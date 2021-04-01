@@ -1,6 +1,6 @@
 from flask import session
 
-from app import Comment, db, notifications, Blogpost
+from app import Comment, db
 
 
 def add_comment(post_id, content):
@@ -18,7 +18,3 @@ def add_comment(post_id, content):
         db.session.add(comment)
         db.session.commit()
         print("Comment added.")
-        post = db.session.query(Blogpost.id).filter_by(id == post_id).first()
-        notifications.notify_users(post.user_id,
-                                   format("New comment in post %s", post.title),
-                                   format("Comment has been added to post %s", post.title))

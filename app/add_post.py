@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import session
 
-from app import Blogpost, db, notifications, Person
+from app import Blogpost, db
 
 
 def add_post(title, content):
@@ -23,7 +23,3 @@ def add_post(title, content):
         db.session.add(post)
         db.session.commit()
         print("Post added!")
-        person = db.session.query(Person.id).filter_by(id == person_id).first()
-        notifications.notify_users(person_id,
-                                   format("New post by %s", person.username),
-                                   format("Post has been created by %s.", person.username))

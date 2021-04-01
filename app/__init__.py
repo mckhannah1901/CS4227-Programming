@@ -6,12 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = "cs4227"
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # TODO: Update this, if necessary.
-app.config['MAIL_PORT'] = 465  # TODO: Update this, if necessary.
-app.config['MAIL_USERNAME'] = 'cs4227.blog.website@gmail.com'
-app.config['MAIL_PASSWORD'] = 'examplePassword5*'
-app.config['MAIL_USE_TLS'] = False  # TODO: Update this, if necessary.
-app.config['MAIL_USE_SSL'] = True  # TODO: Update this, if necessary.
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'cs4227.blog.website@gmail.com',
+    "MAIL_PASSWORD": 'examplePassword5*'
+}
 
 login_manager = LoginManager()
 login_manager.init_app(app)

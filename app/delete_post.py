@@ -1,4 +1,4 @@
-from app import db, Blogpost, notifications, Person
+from app import db, Blogpost, Person
 
 
 def delete_post(postId):
@@ -7,7 +7,3 @@ def delete_post(postId):
 
     Blogpost.query.filter_by(id=postId).delete()
     db.session.commit()
-
-    notifications.notify_users(person.id,
-                               format("Post %s deleted", post.title),
-                               format("Post %s had been deleted.", post.title))
