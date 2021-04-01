@@ -9,6 +9,33 @@ users_to_follow = db.Table(
 )
 
 
+class Memento:
+    def __init__(self, post):
+        self.post = post
+
+
+class PostEditUtility:
+    def __init__(self, post):
+        self.post = post
+
+    def edit(self, new_post):
+        self.post = new_post
+
+    def save(self):
+        return Memento(self.post)
+
+    def undo(self, memento):
+        self.post = memento.post
+
+
+class PostEditCaretaker:
+    def save(self, edit_utility):
+        self.obj = edit_utility.save()
+
+    def undo(self, edit_utility):
+        edit_utility.undo(self.obj)
+
+
 class PersonManager:
     _builder = None
 
