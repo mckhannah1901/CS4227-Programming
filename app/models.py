@@ -15,7 +15,7 @@ class Mediator(object):
         body = "User {username} has subscribed to you. They can see any activity you have.".format(
             username=username)
 
-        notifications.PublisherSubscriber.notify_subscription_event(email=email, subject=subject, body=body)
+        notifications.PublisherSubscriber.notify_subscription_event(self, email=email, subject=subject, body=body)
 
 
 class Memento:
