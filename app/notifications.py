@@ -18,7 +18,6 @@ class PublisherSubscriber:
 
         for p in all_people:
             subbed_users = p.followed_user.all()
-            print(subbed_users)
             person_id = int(person.id)
 
             person_identifiers = []
@@ -26,12 +25,7 @@ class PublisherSubscriber:
             for sub in subbed_users:
                 person_identifiers.append(sub.id)
 
-            print(person_identifiers)
-            print(type(person_identifiers))
-            print(person_id)
-
             if person_id in person_identifiers:
-                print(10)
                 self.notify_subscription_event(p.email, "New Subject", "There was a new post created.")
             else:
                 continue
