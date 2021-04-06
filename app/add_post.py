@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import session
 
-from app import Blogpost, db
+from app import Blogpost, db, notifications
 
 
 def add_post(title, content, tag):
@@ -22,4 +22,6 @@ def add_post(title, content, tag):
     else:
         db.session.add(post)
         db.session.commit()
+        pub_sub = notifications.PublisherSubscriber()
+        pub_sub.notify_subscribed_users()
         print("Post added!")

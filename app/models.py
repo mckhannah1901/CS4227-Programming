@@ -8,13 +8,15 @@ users_to_follow = db.Table(
     db.Column('user_being_followed_id', db.Integer, db.ForeignKey('person.id'))
 )
 
+
 class Mediator(object):
     def notify_user(self, username, email):
         subject = "New user has subscribed to you"
         body = "User {username} has subscribed to you. They can see any activity you have.".format(
             username=username)
 
-        notifications.notify_subscription_event(email=email, subject=subject, body=body)
+        pub_sub = notifications.PublisherSubscriber()
+        pub_sub.notify_subscription_event(email=email, subject=subject, body=body)
 
 
 class Memento:
