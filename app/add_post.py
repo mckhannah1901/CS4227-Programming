@@ -22,5 +22,6 @@ def add_post(title, content, tag):
     else:
         db.session.add(post)
         db.session.commit()
-        notifications.PublisherSubscriber.notify_subscribed_users()
+        pub_sub = notifications.PublisherSubscriber()
+        pub_sub.notify_subscribed_users()
         print("Post added!")

@@ -1,4 +1,4 @@
-from flask import redirect, url_for
+from flask import redirect, url_for, session
 from flask_login import current_user, login_required
 
 from app import Person, db
@@ -22,6 +22,6 @@ def follow_user(username):
     print('You are now following {}.'.format(username))
 
     mediator = Mediator()
-    mediator.notify_user(username=person.username, email=person.email)
+    mediator.notify_user(username=session['username'], email=person.email)
 
     return redirect(url_for('viewpost', username=username))
