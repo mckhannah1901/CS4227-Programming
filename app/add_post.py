@@ -22,7 +22,6 @@ def add_post(title, content, tag):
     else:
         composite = add_content_composite.Composite()
         composite.add(post)
-        print("1")
         pub_sub = notifications.PublisherSubscriber()
         pub_sub.notify_subscribed_users()
         print("Post added!")
