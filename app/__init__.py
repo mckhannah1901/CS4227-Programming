@@ -25,4 +25,4 @@ db = SQLAlchemy(app)
 
 from app.models import Person, Blogpost, Comment
 from app import add_comment, add_post, delete_post, edit_post, log_in, log_out, user_registration, viewposts, routes, \
-    user_subscribing, user_profile
+    user_subscribing, user_profile, add_content_composite

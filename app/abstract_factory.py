@@ -1,6 +1,6 @@
 from flask import session
 
-from app import Comment, db
+from app import Comment, db, add_content_composite
 
 
 def save_comment_to_database(post_id, content):
@@ -15,8 +15,8 @@ def save_comment_to_database(post_id, content):
         print("This comment already exists, choose another!")
         raise Exception
     else:
-        db.session.add(comment)
-        db.session.commit()
+        composite = add_content_composite.Composite()
+        composite.add(comment)
         print("Comment added.")
 
 
