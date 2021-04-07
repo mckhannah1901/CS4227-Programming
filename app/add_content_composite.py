@@ -1,8 +1,3 @@
-# def add(content):
-#     # calls the add method in content.
-#     content.add(content)
-
-
 from app import db, Comment, Blogpost
 
 
@@ -14,13 +9,13 @@ class Content:
 class CommentAdder(Content):
     def add(self, content):
         db.session.add(content)
-        db.session.commit()  # moved to add_content_composite.py
+        db.session.commit()
 
 
 class BlogpostAdder(Content):
     def add(self, content):
         db.session.add(content)
-        db.session.commit()  # moved to add_content_composite.py
+        db.session.commit()
 
 
 class Composite(Content):
