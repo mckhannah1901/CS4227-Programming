@@ -3,6 +3,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
+from app.interceptor import InterceptorManager, LoggingInterceptor
+
 app = Flask(__name__)
 mail = Mail(app)
 app.secret_key = "cs4227"
@@ -22,6 +24,10 @@ login_manager.login_view = 'login'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_blog_post.db'
 app.config['TESTING'] = False
 db = SQLAlchemy(app)
+
+interceptor_manager = InterceptorManager()
+logging_interceptor = LoggingInterceptor()
+interceptor_manager.add(logging_interceptor)
 
 from app.models import Person, Blogpost, Comment
 from app import add_comment, add_post, delete_post, edit_post, log_in, log_out, user_registration, viewposts, routes, \
