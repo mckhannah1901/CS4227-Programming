@@ -1,6 +1,9 @@
-from flask_restless import APIManager
-from app import db, app, login_manager, notifications
 from flask_login import UserMixin
+from flask_restless import APIManager
+
+from app import db, app, login_manager, notifications
+from app.blogpost import Blogpost
+from app.comment import Comment
 
 users_to_follow = db.Table(
     'users_to_follow',
@@ -141,24 +144,6 @@ class Person(UserMixin, db.Model):
 @login_manager.user_loader
 def user_loader(id):
     return Person.query.get(int(id))
-
-
-class Blogpost(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text)
-    username = db.Column(db.Text)
-    date = db.Column(db.DateTime)
-    content = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-    tag = db.Column(db.Text)
-
-
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer)
-    username = db.Column(db.Text)
-    date = db.Column(db.Text)
-    content = db.Column(db.Text)
 
 
 api_manager = APIManager(app, flask_sqlalchemy_db=db)

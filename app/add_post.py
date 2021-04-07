@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import session
 
-from app import Blogpost, db, notifications
+from app import Blogpost, db, notifications, add_content_composite
 
 
 def add_post(title, content, tag):
@@ -20,8 +20,9 @@ def add_post(title, content, tag):
         print("This title already exists, choose another!")
         raise Exception
     else:
-        db.session.add(post)
-        db.session.commit()
+        composite = add_content_composite.Composite()
+        composite.add(post)
+        print("1")
         pub_sub = notifications.PublisherSubscriber()
         pub_sub.notify_subscribed_users()
         print("Post added!")
