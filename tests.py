@@ -48,8 +48,8 @@ class UnitTest(unittest.TestCase):
 
     def test_follow_user_positive(self):
         with app.test_request_context():
-            session['username'] = "bleh"
-            session['id'] = 1234
+            user_registration.register_new_user("firstname4", "lastname4", "email@email4.com", "username4", "password4")
+            log_in.log_in("email@email4.com", "password4")
 
             try:
                 user_subscribing.follow_user("username")
