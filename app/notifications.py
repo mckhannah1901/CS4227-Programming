@@ -16,16 +16,17 @@ class PublisherSubscriber:
 
         all_people = models.Person.query.all()
 
-        for p in all_people:
-            subbed_users = p.followed_user.all()
-            person_id = int(person.id)
+        if not all_people:
+            for p in all_people:
+                subbed_users = p.followed_user.all()
+                person_id = int(person.id)
 
-            person_identifiers = []
+                person_identifiers = []
 
-            for sub in subbed_users:
-                person_identifiers.append(sub.id)
+                for sub in subbed_users:
+                    person_identifiers.append(sub.id)
 
-            if person_id in person_identifiers:
-                self.notify_subscription_event(p.email, "New Subject", "There was a new post created.")
-            else:
-                continue
+                if person_id in person_identifiers:
+                    self.notify_subscription_event(p.email, "New Subject", "There was a new post created.")
+                else:
+                    continue
