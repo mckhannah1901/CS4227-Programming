@@ -1,7 +1,6 @@
 import unittest
-from flask_sqlalchemy import SQLAlchemy
 
-from app import user_registration, log_in, models, db, app
+from app import user_registration, log_in, app
 
 
 class UnitTest(unittest.TestCase):
@@ -16,11 +15,8 @@ class UnitTest(unittest.TestCase):
             user_registration.register_new_user("", "", "", "", "")
 
     def test_login_positive(self):
-        # add person to test db when it is set up
-        #user_registration.register_new_user("first", "last", "email@email.ie", "name", "pass")
-        try:
-            log_in.log_in("email@email.ie", "pass")
-        except Exception:
-            self.fail("Login test failed")
-
-    #def login_negative(self):
+        with app.test_request_context():
+            try:
+                log_in.log_in("email@email.com", "password")
+            except Exception:
+                self.fail("Login test failed")
