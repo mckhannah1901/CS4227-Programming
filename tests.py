@@ -48,12 +48,12 @@ class UnitTest(unittest.TestCase):
 
     def test_follow_user_positive(self):
         with app.test_request_context():
-            user_registration.register_new_user("firstname", "lastname", "email@email.com", "username", "password")  # If clean database, comment it out.
+            user_registration.register_new_user("firstname5", "lastname5", "email@email5.com", "username5", "password5")  # If clean database, comment it out.
             user_registration.register_new_user("firstname4", "lastname4", "email@email4.com", "username4", "password4")
             log_in.log_in("email@email4.com", "password4")
 
             try:
-                user_subscribing.follow_user("username")
+                user_subscribing.follow_user("username5")
             except Exception:
                 self.fail("Add post test failed")
 
