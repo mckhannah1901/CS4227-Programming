@@ -13,7 +13,7 @@ def add_post(title, content, tag):
 
     post_exists = db.session.query(Blogpost.id).filter_by(title=title).first()
 
-    if title == '' or username == '' or content == '':
+    if title == '' or username == '' or content == '' or tag == '':
         interceptor_manager.execute("All fields of the form must be filled in!")
         raise Exception
     elif post_exists:

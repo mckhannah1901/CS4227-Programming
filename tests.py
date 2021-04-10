@@ -37,7 +37,13 @@ class UnitTest(unittest.TestCase):
             except Exception:
                 self.fail("Add post test failed")
 
-    #def test_add_post_negative(self):
+    def test_add_post_negative(self):
+        with app.test_request_context():
+            session['username'] = "bleh"
+            session['id'] = 1234
+
+            with self.assertRaises(Exception):
+                add_post.add_post("email@email1234.com", "password", "")
 
     # def follow_user_test_positive(self):
     #
