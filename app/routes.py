@@ -33,7 +33,10 @@ def view_user_profile(username):
 
 @app.route('/user_subscribe/<username>', methods=['GET', 'POST'])
 def subscribe_to_user(username):
-    return redirect(url_for("viewpost", username=user_subscribing.follow_user(username)))
+    try:
+        return redirect(url_for("viewpost", username=user_subscribing.follow_user(username)))
+    except Exception as ex:
+        return redirect(url_for('viewpost'))
 
 
 @app.route("/viewposts", methods=["GET", "POST"])

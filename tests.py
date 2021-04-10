@@ -2,7 +2,7 @@ import unittest
 
 from flask import session
 
-from app import user_registration, log_in, app, add_post
+from app import user_registration, log_in, app, add_post, user_subscribing
 
 
 class UnitTest(unittest.TestCase):
@@ -19,7 +19,8 @@ class UnitTest(unittest.TestCase):
     def test_login_positive(self):
         with app.test_request_context():
             try:
-                log_in.log_in("email@email.com", "password")
+                user_registration.register_new_user("firstname2", "lastname2", "email@email2.com", "username2", "password2")
+                log_in.log_in("email@email2.com", "password2")
             except Exception:
                 self.fail("Login test failed")
 
@@ -45,7 +46,21 @@ class UnitTest(unittest.TestCase):
             with self.assertRaises(Exception):
                 add_post.add_post("email@email1234.com", "password", "")
 
-    # def follow_user_test_positive(self):
-    #
-    # def follow_user_test_negative(self):
+    def test_follow_user_positive(self):
+        with app.test_request_context():
+            session['username'] = "bleh"
+            session['id'] = 1234
+
+            try:
+                user_subscribing.follow_user("username")
+            except Exception:
+                self.fail("Add post test failed")
+
+    def test_follow_user_negative(self):
+        with app.test_request_context():
+            user_registration.register_new_user("firstname3", "lastname3", "email@email3.com", "username3", "password3")
+            log_in.log_in("email@email3.com", "password3")
+
+            with self.assertRaises(Exception):
+                user_subscribing.follow_user("bleh2")
 

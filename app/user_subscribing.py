@@ -11,11 +11,11 @@ def follow_user(username):
 
     if person is None:
         interceptor_manager.execute('User not found within the database')
-        return redirect(url_for('viewpost'))
+        raise Exception
 
     if person == current_user:
         interceptor_manager.execute('You cannot follow yourself')
-        return redirect(url_for('viewpost', username=username))
+        raise Exception
 
     current_user.follow_user(person)
     db.session.commit()
