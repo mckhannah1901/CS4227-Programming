@@ -1,4 +1,4 @@
-# CS4227-Programming Bombombombomb
+# CS4227-Programming
 
 Python Commands to Install Pip Packages
 * pip install flask-sqlalchemy
