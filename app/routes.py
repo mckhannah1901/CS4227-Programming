@@ -80,7 +80,7 @@ def register():
 @app.route("/logout")
 def logout():
     log_out.log_out()
-    return redirect(url_for("viewpost"))
+    return redirect(url_for("home"))
 
 
 @app.route("/login", methods=["GET", "POST"])

@@ -18,35 +18,50 @@
     <article>
         <div class="container">
             <div class="row">
-                <h2>{{ post.title }}</h2>
+                <b>Title:</b>
+                <p>{{ post.title }}</p>
             </div>
+            <br/>
             <div class="row">
+                <b>Post Content:</b>
                 <p>{{ post.content }}</p>
             </div>
+            <br/>
             <div class="row">
+                <b>Author:</b>
                 <p>{{ post.username }}</p>
             </div>
+            <br/>
             <div class="row">
+                <b>Tag:</b>
                 <p>{{ post.tag }}</p>
             </div>
+            <br/>
             <div>
                 <a href="/user_subscribe/{{ post.username }}">Subscribe to User</a>
             </div>
+            <br/>
             <div>
                 <a href="/add-comment/{{ post.id }}">Add Comment</a>
             </div>
+            <br/>
             <div>
                 <a href="/add-reaction/{{ post.id }}">Add Reaction</a>
+                <hr/>
             </div>
             <div class="row">
-                <h3>Comments</h3>
+                <b>Comments:</b>
+                <br/>
             </div>
+            <br/>
             <div class="row">
                 {% for comment in comments %}
-                    <div class="row">
+                        <b>Content:</b>
                         {{ comment.content }}
+                        <br/>
+                        <b>Author:</b>
                         {{ comment.username }}
-                    </div>
+                        <hr/>
                 {% endfor %}
             </div>
         </div>
