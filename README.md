@@ -1,9 +1,6 @@
 # CS4227-Programming
 
-Python Commands to Install Pip Packages
-* pip install flask-sqlalchemy
-* pip install flask-restless
-
-Create and connect to a database with the app.config URI, on line 7 in app.py
-
-Haven't tested out with the code here, but it seems to be a simple example to get this to work, for adding functionality.
+- Install any necessary Python packages.
+- To run the app, use "python app.py".
+- To run the tests at the beginning, run the "tests.py" file.
+- The project is viewable on localhost:5000 on your computer.
