@@ -14,15 +14,45 @@
 </head>
 <body>
 
-    <!-- Main Content -->
+       <!-- Main Content -->
     <article>
+        <div align="left" >
+             <form action="http://127.0.0.1:5000/">
+                <div>
+                    <b>Filter Posts by:</b>
+                    <br />
+                    <a href="/viewposts/Tech"class="btn btn-primary">Tech</a>
+                    <a href="/viewposts/Food"class="btn btn-primary">Food</a>
+                    <a href="/viewposts/DIY"class="btn btn-primary">DIY</a>
+                    <a href="/viewposts/Home"class="btn btn-primary">Home</a>
+                    <a href="/viewposts/Sport"class="btn btn-primary">Sport</a>
+                    <a href="/viewposts/Gaming"class="btn btn-primary">Gaming</a>
+                    <a href="/viewposts/Animals"class="btn btn-primary">Animals</a>
+                    <a href="/viewposts/Existential"class="btn btn-primary">Existential</a>
+                    <a href="/viewposts/Other"class="btn btn-primary">Other</a>
+                    <a href="/viewposts"class="btn btn-primary">View All Posts</a>
+                    <br/>
+                    <br/>
+                    <a href="/addpost"class="btn btn-primary">Add Post</a>
+                    <br/>
+                    <br/>
+                    <a href="/logout"class="btn btn-primary">Logout</a>
+                 </div>
         <div class="container">
           <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-            {% for post in posts %}
-                {{ post.content }}
-                </div>
-              {% endfor %}
+                {% for post in posts %}
+                    <div class="row">
+                        <b>Post Title:</b>
+                        {{ post.title }}
+                        <br/>
+                        <b>Author:</b>
+                        {{post.username}}
+                        <br/>
+                        <a href="/view-post/{{ post.id }}">View Post</a>
+                        <hr>
+                    </div>
+                {% endfor %}
             </div>
           </div>
         </div>
