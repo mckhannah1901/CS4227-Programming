@@ -18,22 +18,22 @@
     <article>
         <div class="container">
             <div class="row">
-                <b>Title:</b>
+                <strong>Title:</strong>
                 <p>{{ post.title }}</p>
             </div>
             <br/>
             <div class="row">
-                <b>Post Content:</b>
+                <strong>Post Content:</strong>
                 <p>{{ post.content }}</p>
             </div>
             <br/>
             <div class="row">
-                <b>Author:</b>
+                <strong>Author:</strong>
                 <p>{{ post.username }}</p>
             </div>
             <br/>
             <div class="row">
-                <b>Tag:</b>
+                <strong>Tag:</strong>
                 <p>{{ post.tag }}</p>
             </div>
             <br/>
@@ -50,18 +50,18 @@
                 <hr/>
             </div>
             <div class="row">
-                <b>Comments:</b>
+                <strong>Comments:</strong>
                 <br/>
             </div>
             <br/>
             <div class="row">
                 {% for comment in comments %}
-                        <b>Content:</b>
-                        {{ comment.content }}
-                        <br/>
-                        <b>Author:</b>
-                        {{ comment.username }}
-                        <hr/>
+                    <strong>Content:</strong>
+                    {{ comment.content }}
+                    <br/>
+                    <strong>Author:</strong>
+                    {{ comment.username }}
+                    <hr/>
                 {% endfor %}
             </div>
         </div>

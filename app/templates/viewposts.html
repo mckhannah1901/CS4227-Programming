@@ -19,7 +19,7 @@
         <div align="left" >
              <form action="http://127.0.0.1:5000/">
                 <div>
-                    <b>Filter Posts by:</b>
+                    <strong>Filter Posts by:</strong>
                     <br />
                     <a href="/viewposts/Tech"class="btn btn-primary">Tech</a>
                     <a href="/viewposts/Food"class="btn btn-primary">Food</a>
@@ -43,10 +43,10 @@
             <div class="col-lg-8 col-md-10 mx-auto">
                 {% for post in posts %}
                     <div class="row">
-                        <b>Post Title:</b>
+                        <strong>Post Title:</strong>
                         {{ post.title }}
                         <br/>
-                        <b>Author:</b>
+                        <strong>Author:</strong>
                         {{post.username}}
                         <br/>
                         <a href="/view-post/{{ post.id }}">View Post</a>
