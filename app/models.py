@@ -12,6 +12,16 @@ users_to_follow = db.Table(
 )
 
 
+class Log:
+    _message = None
+
+    def __init__(self, message):
+        self._message = message
+
+    def log(self):
+        print(self._message)
+
+
 class Mediator(object):
     def notify_user(self, username, email):
         subject = "New user has subscribed to you"

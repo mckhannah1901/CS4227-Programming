@@ -16,5 +16,5 @@ class Interceptor:
 
 
 class LoggingInterceptor(Interceptor):
-    def execute(self, request):
-        print(request)
+    def execute(self, log):
+        log.log()

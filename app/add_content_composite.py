@@ -1,4 +1,5 @@
 from app import db, Comment, Blogpost, interceptor_manager
+from app.models import Log
 
 
 class Content:
@@ -27,4 +28,5 @@ class Composite(Content):
             ba = BlogpostAdder()
             ba.add(content)
         else:
-            interceptor_manager.execute("This is not a compatible object for this.")
+            log = Log("This is not a compatible object for this.")
+            interceptor_manager.execute(log)

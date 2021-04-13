@@ -2,6 +2,7 @@ from flask import session
 from flask_login import login_user
 
 from app import Person, interceptor_manager
+from app.models import Log
 
 
 def log_in(email, password):
@@ -11,5 +12,6 @@ def log_in(email, password):
         session['id'] = user_login.id
         login_user(user_login)
     else:
-        interceptor_manager.execute("Ensure a valid email/password is input!")
+        log = Log("Ensure a valid email/password is input!")
+        interceptor_manager.execute(log)
         raise Exception

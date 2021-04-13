@@ -1,4 +1,5 @@
 from app import Person, db, models, interceptor_manager
+from app.models import Log
 
 
 def register_new_user(first_name, last_name, email, username, password):
@@ -14,15 +15,19 @@ def register_new_user(first_name, last_name, email, username, password):
     username_exists = db.session.query(Person.id).filter_by(username=username).first()
 
     if first_name == '' or last_name == '' or email == '' or username == '' or password == '':
-        interceptor_manager.execute("All fields of the form must be filled in!")
+        log = Log("All fields of the form must be filled in!")
+        interceptor_manager.execute(log)
         raise Exception
     elif email_exists:
-        interceptor_manager.execute("This email already exists in the database. Please choose another!")
+        log = Log("This email already exists in the database. Please choose another!")
+        interceptor_manager.execute(log)
         raise Exception
     elif username_exists:
-        interceptor_manager.execute("This username already exists in the database. Please choose another!")
+        log = Log("This username already exists in the database. Please choose another!")
+        interceptor_manager.execute(log)
         raise Exception
     else:
         db.session.add(person)
         db.session.commit()
-        interceptor_manager.execute("Registration completed successfully!")
+        log = Log("Registration completed successfully!")
+        interceptor_manager.execute(log)
